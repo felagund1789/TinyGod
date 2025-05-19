@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class NPCWalker : MonoBehaviour
 {
-    public float moveSpeed = 50f;
+    public float moveSpeed = 10f;
     private float _movementTime = 5f;
     private Vector3 _targetDir;
 

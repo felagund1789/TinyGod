@@ -11,7 +11,7 @@ public class PlanetController : MonoBehaviour
             return;
 
         Vector2 delta = Mouse.current.delta.ReadValue();
-        transform.Rotate(Vector3.up, delta.x * rotationSpeed * Time.deltaTime, Space.World);
-        transform.Rotate(Vector3.right, -delta.y * rotationSpeed * Time.deltaTime, Space.World);
+        transform.Rotate(Vector3.up, -delta.x * rotationSpeed * Time.deltaTime, Space.World);
+        transform.Rotate(Vector3.right, delta.y * rotationSpeed * Time.deltaTime, Space.World);
     }
 }
