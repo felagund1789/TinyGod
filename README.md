@@ -68,6 +68,7 @@ Assets/
   - [Environment Pack: Free Forest Sample by Supercyan](https://assetstore.unity.com/packages/p/environment-pack-free-forest-sample-168396)
   - [Free Fire VFX - URP by Vefects](https://assetstore.unity.com/packages/p/free-fire-vfx-urp-266226)
   - [Stylized Lava materials by Rob luo](assetstore.unity.com/packages/p/stylized-lava-materials-180943)
+  - [Free Quick Effects Vol. 1 by Gabriel Aguiar Prod](https://assetstore.unity.com/packages/vfx/particles/free-quick-effects-vol-1-304424)
 
 ---
 

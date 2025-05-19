@@ -456,6 +456,7 @@ GameObject:
   - component: {fileID: 956715323}
   - component: {fileID: 956715324}
   - component: {fileID: 956715322}
+  - component: {fileID: 956715326}
   - component: {fileID: 956715325}
   m_Layer: 0
   m_Name: Game
@@ -509,6 +510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3e21fa13ae807644abe2d53a7accc6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  faithManager: {fileID: 956715326}
   mainCamera: {fileID: 330585545}
   rainEffect: {fileID: 852277127398752463, guid: d96bd7b058246bb43b70b8ef457d4358, type: 3}
   fireballPrefab: {fileID: 7262732296935539885, guid: a199cdf72dc7210479d7f2d2915934d4, type: 3}
@@ -615,6 +617,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &956715326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 956715321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be86a40fda024ca1ba3b1a1d363178c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faith: 0
+  faithGainPerSecond: 1
+  maxFaith: 100
 --- !u!4 &1340019518 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6375426159870363982, guid: 1fd37d2dfbe426f44a7554c95f7f2df6, type: 3}

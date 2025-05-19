@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GodPowers : MonoBehaviour
 {
+    [SerializeField] private FaithManager faithManager;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private GameObject rainEffect;
     [SerializeField] private GameObject fireballPrefab;
@@ -14,7 +15,7 @@ public class GodPowers : MonoBehaviour
 
     private enum PowerType { Rain, Fireball }
     [SerializeField] private PowerType currentPower = PowerType.Rain;
-    private Coroutine rainCoroutine;
+    private Coroutine _rainCoroutine;
 
     void Update()
     {
@@ -36,11 +37,16 @@ public class GodPowers : MonoBehaviour
         switch (currentPower)
         {
             case PowerType.Rain:
-                if (rainCoroutine == null)
-                    rainCoroutine = StartCoroutine(Rain(point));
+                if (_rainCoroutine == null && faithManager.ConsumeFaith(10f))
+                    _rainCoroutine = StartCoroutine(Rain(point));
+                else
+                    Debug.Log("Can't use Rain right now. Rain is already active or not enough faith.");
                 break;
             case PowerType.Fireball:
-                ThrowFireball(point);
+                if (faithManager.ConsumeFaith(20f))
+                    ThrowFireball(point);
+                else
+                    Debug.Log("Not enough faith to throw a fireball.");
                 break;
         }
     }
@@ -59,7 +65,7 @@ public class GodPowers : MonoBehaviour
         
         rainParticles.Stop();
         Destroy(rainGameObject);
-        rainCoroutine = null;
+        _rainCoroutine = null;
     }
 
     private void ThrowFireball(Vector3 point)
