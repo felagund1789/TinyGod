@@ -2,6 +2,8 @@
 
 **Tiny God** is a minimalist god game prototype created for the **GameDev.tv Game Jam 2025**, where you play as a divine being watching over a tiny spherical planet. Shape the land, control the weather, and guide (or smite) the primitive creatures who call your world home.
 
+![Screenshot](Screens/TinyGod.png)
+
 ---
 
 ## 🎮 Gameplay Overview
