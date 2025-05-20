@@ -13,8 +13,8 @@ public class GodPowers : MonoBehaviour
     [SerializeField] private GameObject planet;
     [SerializeField] private LayerMask planetLayer;
 
-    private enum PowerType { Rain, Fireball }
-    [SerializeField] private PowerType currentPower = PowerType.Rain;
+    public enum PowerType { Rain, Fireball }
+    public PowerType currentPower = PowerType.Rain;
     private Coroutine _rainCoroutine;
 
     void Update()
@@ -62,7 +62,7 @@ public class GodPowers : MonoBehaviour
 
         Bus<RainEvent>.Raise(new RainEvent(point, (RainType)Random.Range(0, 2)));
         yield return new WaitForSeconds(5f);
-        
+
         rainParticles.Stop();
         Destroy(rainGameObject);
         _rainCoroutine = null;
