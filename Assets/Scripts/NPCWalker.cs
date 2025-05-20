@@ -1,4 +1,8 @@
+using System;
+using EventBus;
+using Events;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class NPCWalker : AbstractSpawnable, IDestructible
 {
@@ -8,6 +12,7 @@ public class NPCWalker : AbstractSpawnable, IDestructible
 
     void Start()
     {
+        Bus<NPCSpawnEvent>.Raise(new NPCSpawnEvent());
         PickNewDirection();
     }
 
@@ -25,5 +30,10 @@ public class NPCWalker : AbstractSpawnable, IDestructible
     void PickNewDirection()
     {
         _targetDir = Random.onUnitSphere;
+    }
+
+    private void OnDestroy()
+    {
+        Bus<NPCDeathEvent>.Raise(new NPCDeathEvent());
     }
 }

@@ -1,4 +1,6 @@
 using System.Collections;
+using EventBus;
+using Events;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,6 +8,8 @@ using static GodPowers;
 
 public class UIController : MonoBehaviour
 {
+    [Header("UI Elements")]
+    [SerializeField] private TextMeshProUGUI populationText;
     [SerializeField] private RectTransform rainIcon;
     [SerializeField] private RectTransform fireballIcon;
     [SerializeField] private Button rainButton;
@@ -38,6 +42,15 @@ public class UIController : MonoBehaviour
         // Setup button click handlers
         rainButton.onClick.AddListener(() => godPowers.currentPower = PowerType.Rain);
         fireballButton.onClick.AddListener(() => godPowers.currentPower = PowerType.Fireball);
+
+        Bus<NPCSpawnEvent>.OnEvent += OnNPCSpawnEvent;
+        Bus<NPCDeathEvent>.OnEvent += OnNPCDeathEvent;
+    }
+    
+    private void OnDestroy()
+    {
+        Bus<NPCSpawnEvent>.OnEvent -= OnNPCSpawnEvent;
+        Bus<NPCDeathEvent>.OnEvent -= OnNPCDeathEvent;
     }
 
     private void Update()
@@ -57,6 +70,9 @@ public class UIController : MonoBehaviour
             Time.deltaTime * animationSpeed
         );
     }
+    
+    private void OnNPCSpawnEvent(NPCSpawnEvent evt) => populationText.text = (Utils.ParseInt(populationText.text) + 1).ToString();
+    private void OnNPCDeathEvent(NPCDeathEvent evt) => populationText.text = (Utils.ParseInt(populationText.text) - 1).ToString();
 
     public void ShowMessage(string message, bool isError = false)
     {
