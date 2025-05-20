@@ -15,28 +15,7 @@ public class Spawner : MonoBehaviour
     void Start()
     {
         for (int i = 0; i < forestsCount; i++)
-        {
-            Vector3 lastPosition = Vector3.zero;
-            for (int j = 0; j < treesPerForest; j++)
-            {
-                Vector3 direction = Random.onUnitSphere;
-                Vector3 targetPosition;
-                if (j == 0)
-                {
-                    targetPosition = planet.transform.position + direction * (planet.transform.localScale.x / 2);
-                }
-                else
-                {
-                    Vector3 newPos = (lastPosition + Random.insideUnitSphere * maxDistance).normalized;
-                    targetPosition = planet.transform.position + newPos * (planet.transform.localScale.x / 2);
-                    direction = targetPosition.normalized;
-                }
-                lastPosition = targetPosition;
-
-                GameObject tree = Instantiate(treePrefab, planet.transform);
-                tree.GetComponent<AbstractGrowable>().Spawn(targetPosition, direction);
-            }
-        }
+            SpawnPrefabs(Random.onUnitSphere, treePrefab, treesPerForest);
     }
 
     private void Awake()
@@ -62,10 +41,10 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    private void SpawnPrefabs(Vector3 location, GameObject prefab)
+    private void SpawnPrefabs(Vector3 location, GameObject prefab, int count = 5)
     {
         Vector3 basePosition = location.normalized * (planet.transform.localScale.x / 2);
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < count; i++)
         {
                 
             Vector3 offset = (basePosition + Random.insideUnitSphere * maxDistance).normalized;

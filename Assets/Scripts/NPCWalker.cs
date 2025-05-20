@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NPCWalker : MonoBehaviour
+public class NPCWalker : MonoBehaviour, IDestructible
 {
     public float moveSpeed = 10f;
     private float _movementTime = 5f;

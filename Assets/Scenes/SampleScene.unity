@@ -130,7 +130,6 @@ GameObject:
   - component: {fileID: 119818297}
   - component: {fileID: 119818299}
   - component: {fileID: 119818298}
-  - component: {fileID: 119818300}
   m_Layer: 5
   m_Name: Faith
   m_TagString: Untagged
@@ -197,22 +196,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 119818296}
   m_CullTransparentMesh: 1
---- !u!114 &119818300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 119818296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be86a40fda024ca1ba3b1a1d363178c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  faith: 0
-  faithGainPerSecond: 1
-  maxFaith: 100
-  faithBarImage: {fileID: 576239128}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -761,11 +744,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 576239126}
   m_CullTransparentMesh: 1
---- !u!4 &680510816 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6375426159870363982, guid: 1fd37d2dfbe426f44a7554c95f7f2df6, type: 3}
-  m_PrefabInstance: {fileID: 1346589962}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &684871781
 GameObject:
   m_ObjectHideFlags: 0
@@ -1153,6 +1131,7 @@ GameObject:
   - component: {fileID: 956715324}
   - component: {fileID: 956715322}
   - component: {fileID: 956715325}
+  - component: {fileID: 956715326}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -1177,7 +1156,7 @@ MonoBehaviour:
   farmPrefab: {fileID: 3374382380563411602, guid: 7d03d012320554b41b0ab6c2a7a65d78, type: 3}
   forestsCount: 3
   treesPerForest: 20
-  maxDistance: 0.1
+  maxDistance: 0.15
 --- !u!4 &956715323
 Transform:
   m_ObjectHideFlags: 0
@@ -1205,7 +1184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3e21fa13ae807644abe2d53a7accc6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faithManager: {fileID: 119818300}
+  faithManager: {fileID: 956715326}
   mainCamera: {fileID: 330585545}
   rainEffect: {fileID: 852277127398752463, guid: d96bd7b058246bb43b70b8ef457d4358, type: 3}
   fireballPrefab: {fileID: 7262732296935539885, guid: a199cdf72dc7210479d7f2d2915934d4, type: 3}
@@ -1312,6 +1291,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &956715326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 956715321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be86a40fda024ca1ba3b1a1d363178c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faith: 50
+  faithGainPerSecond: 1
+  maxFaith: 100
+  faithBarImage: {fileID: 576239128}
 --- !u!1 &995428753
 GameObject:
   m_ObjectHideFlags: 0
@@ -1991,7 +1986,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -2221,7 +2216,7 @@ Transform:
   m_Children:
   - {fileID: 410087041}
   - {fileID: 3230519537903617002}
-  - {fileID: 680510816}
+  - {fileID: 6375426158523915332}
   - {fileID: 1432328140}
   - {fileID: 1340019518}
   - {fileID: 1985516342}
@@ -2315,6 +2310,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d03d012320554b41b0ab6c2a7a65d78, type: 3}
+--- !u!4 &6375426158523915332 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6375426159870363982, guid: 1fd37d2dfbe426f44a7554c95f7f2df6, type: 3}
+  m_PrefabInstance: {fileID: 1346589962}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8149212278616843260
 PrefabInstance:
   m_ObjectHideFlags: 0
