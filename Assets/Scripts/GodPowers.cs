@@ -52,7 +52,10 @@ public class GodPowers : MonoBehaviour
                     _rainCoroutine = StartCoroutine(Rain(point));
                 else
                 {
-                    uiController.ShowMessage("Can't use Rain right now.", true);
+                    if (uiController != null)
+                    {
+                        uiController.ShowMessage("Can't use Rain right now.", true);
+                    }
                     Debug.Log("Can't use Rain right now. Rain is already active or not enough faith.");
                 }
                 break;
@@ -61,7 +64,10 @@ public class GodPowers : MonoBehaviour
                     ThrowFireball(point);
                 else
                 {
-                    uiController.ShowMessage("Not enough faith to throw a fireball.", true);
+                    if (uiController != null)
+                    {
+                        uiController.ShowMessage("Not enough faith to throw a fireball.", true);
+                    }
                     Debug.Log("Not enough faith to throw a fireball.");
                 }
                 break;
