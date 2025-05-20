@@ -13,9 +13,20 @@ public class GodPowers : MonoBehaviour
     [SerializeField] private GameObject planet;
     [SerializeField] private LayerMask planetLayer;
 
-    private enum PowerType { Rain, Fireball }
-    [SerializeField] private PowerType currentPower = PowerType.Rain;
+    private UIController uiController;
     private Coroutine _rainCoroutine;
+
+    public enum PowerType { Rain, Fireball }
+    public PowerType currentPower = PowerType.Rain;
+
+    private void Start()
+    {
+        uiController = FindFirstObjectByType<UIController>();
+        if (uiController == null)
+        {
+            Debug.LogError("UIController not found in the scene.");
+        }
+    }
 
     void Update()
     {
@@ -40,13 +51,25 @@ public class GodPowers : MonoBehaviour
                 if (_rainCoroutine == null && faithManager.ConsumeFaith(10f))
                     _rainCoroutine = StartCoroutine(Rain(point));
                 else
+                {
+                    if (uiController != null)
+                    {
+                        uiController.ShowMessage("Can't use Rain right now.", true);
+                    }
                     Debug.Log("Can't use Rain right now. Rain is already active or not enough faith.");
+                }
                 break;
             case PowerType.Fireball:
                 if (faithManager.ConsumeFaith(20f))
                     ThrowFireball(point);
                 else
+                {
+                    if (uiController != null)
+                    {
+                        uiController.ShowMessage("Not enough faith to throw a fireball.", true);
+                    }
                     Debug.Log("Not enough faith to throw a fireball.");
+                }
                 break;
         }
     }
@@ -62,7 +85,7 @@ public class GodPowers : MonoBehaviour
 
         Bus<RainEvent>.Raise(new RainEvent(point, (RainType)Random.Range(0, 2)));
         yield return new WaitForSeconds(5f);
-        
+
         rainParticles.Stop();
         Destroy(rainGameObject);
         _rainCoroutine = null;
