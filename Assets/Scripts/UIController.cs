@@ -1,8 +1,10 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static GodPowers;
 
-public class PowerUIController : MonoBehaviour
+public class UIController : MonoBehaviour
 {
     [SerializeField] private RectTransform rainIcon;
     [SerializeField] private RectTransform fireballIcon;
@@ -14,7 +16,15 @@ public class PowerUIController : MonoBehaviour
     [SerializeField] private float normalScale = 1f;
     [SerializeField] private float animationSpeed = 10f;
 
+    [Header("Message Display")]
+    [SerializeField] private TextMeshProUGUI messageText;
+    [SerializeField] private float messageDuration = 2f;
+    [SerializeField] private Color errorColor = Color.red;
+    [SerializeField] private Color normalColor = Color.white;
+
+
     private GodPowers godPowers;
+    private Coroutine _messageCoroutine;
 
     private void Start()
     {
@@ -46,5 +56,25 @@ public class PowerUIController : MonoBehaviour
             Vector3.one * (isRainSelected ? normalScale : selectedScale),
             Time.deltaTime * animationSpeed
         );
+    }
+
+    public void ShowMessage(string message, bool isError = false)
+    {
+        if (_messageCoroutine != null)
+            StopCoroutine(_messageCoroutine);
+
+        _messageCoroutine = StartCoroutine(ShowMessageCoroutine(message, isError));
+    }
+
+    private IEnumerator ShowMessageCoroutine(string message, bool isError)
+    {
+        messageText.text = message;
+        messageText.color = isError ? errorColor : normalColor;
+        messageText.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(messageDuration);
+
+        messageText.gameObject.SetActive(false);
+        _messageCoroutine = null;
     }
 }
