@@ -1,3 +1,3 @@
-public class Farm : AbstractGrowable, IDestructible
+public class Farm : AbstractSpawnable, IDestructible
 {
 }

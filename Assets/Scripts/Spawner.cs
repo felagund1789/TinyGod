@@ -8,12 +8,19 @@ public class Spawner : MonoBehaviour
     [SerializeField] private GameObject planet;
     [SerializeField] private GameObject treePrefab;
     [SerializeField] private GameObject farmPrefab;
+    [SerializeField] private GameObject followerPrefab;
     [Range(1, 5)] [SerializeField] private int forestsCount = 2;
     [Range(10, 100)] [SerializeField] private int treesPerForest = 20;
     [Range(0.1f, 0.5f)] [SerializeField] private float maxDistance = 0.1f;
 
     void Start()
     {
+        for (int i = 0; i < 5; i++)
+        {
+            SpawnPrefabs(Random.onUnitSphere, farmPrefab, 1);
+            SpawnPrefabs(Random.onUnitSphere, followerPrefab, 1);
+        }
+
         for (int i = 0; i < forestsCount; i++)
             SpawnPrefabs(Random.onUnitSphere, treePrefab, treesPerForest);
     }
@@ -50,8 +57,8 @@ public class Spawner : MonoBehaviour
             Vector3 offset = (basePosition + Random.insideUnitSphere * maxDistance).normalized;
             Vector3 targetPosition = planet.transform.position + offset * (planet.transform.localScale.x / 2);
             Vector3 direction = targetPosition.normalized;
-            GameObject tree = Instantiate(prefab, planet.transform);
-            tree.GetComponent<AbstractGrowable>().Spawn(targetPosition, direction);
+            GameObject spawnablee = Instantiate(prefab, planet.transform);
+            spawnablee.GetComponent<AbstractSpawnable>().Spawn(targetPosition, direction);
         }
     }
 }

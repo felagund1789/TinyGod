@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class AbstractGrowable : MonoBehaviour
+public class AbstractSpawnable : MonoBehaviour
 {
     [field: SerializeField] public float TimeToGrow { get; private set; } = 0.5f;
     private Vector3 _targetScale;
@@ -13,10 +13,10 @@ public class AbstractGrowable : MonoBehaviour
         transform.Rotate(0, Random.Range(0, 360), 0);
         _targetScale = transform.localScale;
         transform.localScale = Vector3.zero;
-        StartCoroutine(Grow());
+        StartCoroutine(SpawnFromGround());
     }
 
-    private IEnumerator Grow()
+    private IEnumerator SpawnFromGround()
     {
         float time = 0;
         while (time < TimeToGrow)

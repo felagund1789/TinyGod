@@ -1,3 +1,3 @@
-public class Tree : AbstractGrowable, IDestructible
+public class Tree : AbstractSpawnable, IDestructible
 {
 }
