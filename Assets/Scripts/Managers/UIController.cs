@@ -12,6 +12,7 @@ namespace Managers
         [SerializeField] private TextMeshProUGUI populationText;
         [SerializeField] private TextMeshProUGUI foodSurplusText;
         [SerializeField] private Image faithBarImage;
+        [SerializeField] private Image happinessBarImage;
         [SerializeField] private RectTransform rainIcon;
         [SerializeField] private RectTransform fireballIcon;
         [SerializeField] private Button rainButton;
@@ -63,11 +64,22 @@ namespace Managers
                 Time.deltaTime * animationSpeed
             );
         }
-    
+
         public void UpdatePopulation(int population) => populationText.text = $"{population}";
         public void UpdateFoodSurplus(int food) => foodSurplusText.text = $"{food}";
-        public void UpdateFaith(int faith, int maxFaith) => 
+
+        public void UpdateFaith(int faith, int maxFaith) =>
             faithBarImage.transform.localScale = new Vector3((float)faith / maxFaith, 1f, 1f);
+
+        public void UpdateHappiness(int happiness, int maxHappiness)
+        {
+            float blend = (float)happiness / maxHappiness;
+            happinessBarImage.color = blend < 0.5f
+                ? Color.Lerp(Color.red, Color.yellow, blend * 2f)
+                : Color.Lerp(Color.yellow, Color.green, (blend - 0.5f) * 2f);
+
+            happinessBarImage.transform.localScale = new Vector3((float)happiness / maxHappiness, 1f, 1f);
+        }
 
         public void ShowMessage(string message, bool isError = false)
         {

@@ -12,9 +12,12 @@ namespace Managers
         [SerializeField] private int foodSurplus = 20;
         [SerializeField] private int faith = 20;
         [SerializeField] private int maxFaith = 100;
+        [SerializeField] private int happiness = 100;
+        [SerializeField] private int maxHappiness = 100;
         [SerializeField] private UIController uiController;
 
         public float Faith => faith;
+        public int Happiness => happiness;
 
         private void Start()
         {
@@ -29,6 +32,7 @@ namespace Managers
             uiController.UpdatePopulation(population);
             uiController.UpdateFoodSurplus(foodSurplus);
             uiController.UpdateFaith(faith, maxFaith);
+            uiController.UpdateHappiness(happiness, maxHappiness);
         }
 
         private void OnDestroy()
@@ -47,13 +51,19 @@ namespace Managers
         private void OnFoodProducedEvent(FoodProducedEvent evt)
         {
             foodSurplus += evt.Amount;
-            uiController.UpdateFoodSurplus(foodSurplus);
+            uiController.UpdateFoodSurplus(Mathf.Max(0, foodSurplus)); // always keep food surplus non-negative
+
+            happiness = Mathf.Clamp(maxHappiness + foodSurplus, 0, maxHappiness);
+            uiController.UpdateHappiness(happiness, maxHappiness);
         }
 
         private void OnFoodConsumedEvent(FoodConsumedEvent evt)
         {
-            foodSurplus = Mathf.Max(0, foodSurplus - evt.Amount);
-            uiController.UpdateFoodSurplus(foodSurplus);
+            foodSurplus -= evt.Amount;
+            uiController.UpdateFoodSurplus(Mathf.Max(0, foodSurplus)); // always keep food surplus non-negative
+
+            happiness = Mathf.Clamp(maxHappiness + foodSurplus, 0, maxHappiness);
+            uiController.UpdateHappiness(happiness, maxHappiness);
         }
 
         private void OnFaithGeneratedEvent(FaithGeneratedEvent evt)
