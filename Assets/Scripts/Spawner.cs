@@ -31,11 +31,18 @@ public class Spawner : MonoBehaviour
     private void Awake()
     {
         Bus<RainEvent>.OnEvent += OnRainEvent;
+        Bus<NPCReproduceEvent>.OnEvent += OnNPCReproduceEvent;
     }
 
     private void OnDestroy()
     {
         Bus<RainEvent>.OnEvent -= OnRainEvent;
+        Bus<NPCReproduceEvent>.OnEvent -= OnNPCReproduceEvent;
+    }
+
+    private void OnNPCReproduceEvent(NPCReproduceEvent args)
+    {
+        SpawnPrefabs(Random.insideUnitSphere, followerPrefab, 1);
     }
 
     private void OnRainEvent(RainEvent evt)
@@ -55,8 +62,8 @@ public class Spawner : MonoBehaviour
             Vector3 offset = (basePosition + Random.insideUnitSphere * maxDistance).normalized;
             Vector3 targetPosition = planet.transform.position + offset * (planet.transform.localScale.x / 2);
             Vector3 direction = targetPosition.normalized;
-            GameObject spawnablee = Instantiate(prefab, planet.transform);
-            spawnablee.GetComponent<AbstractSpawnable>().Spawn(targetPosition, direction);
+            GameObject spawnable = Instantiate(prefab, planet.transform);
+            spawnable.GetComponent<AbstractSpawnable>().Spawn(targetPosition, direction);
         }
     }
 }
