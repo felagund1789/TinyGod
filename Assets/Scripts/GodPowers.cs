@@ -1,11 +1,14 @@
 using System.Collections;
 using EventBus;
 using Events;
+using Managers;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GodPowers : MonoBehaviour
 {
     [SerializeField] private FaithManager faithManager;
+    [SerializeField] private UIController uiController;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private GameObject rainEffect;
     [SerializeField] private GameObject fireballPrefab;
@@ -13,7 +16,6 @@ public class GodPowers : MonoBehaviour
     [SerializeField] private GameObject planet;
     [SerializeField] private LayerMask planetLayer;
 
-    private UIController uiController;
     private Coroutine _rainCoroutine;
 
     public enum PowerType { Rain, Fireball }

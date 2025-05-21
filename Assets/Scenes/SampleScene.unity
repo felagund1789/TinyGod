@@ -1409,6 +1409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faithManager: {fileID: 956715326}
+  uiController: {fileID: 767660175}
   mainCamera: {fileID: 330585545}
   rainEffect: {fileID: 852277127398752463, guid: d96bd7b058246bb43b70b8ef457d4358, type: 3}
   fireballPrefab: {fileID: 7262732296935539885, guid: a199cdf72dc7210479d7f2d2915934d4, type: 3}
@@ -1562,8 +1563,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efddcd87d2ca4f909c36d49041a8c546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Population>k__BackingField: 0
-  <FoodSurplus>k__BackingField: 0
+  population: 0
+  foodSurplus: 0
   uiController: {fileID: 767660175}
 --- !u!1 &968225371
 GameObject:
