@@ -221,7 +221,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 287028828}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -232,7 +232,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 650, y: -80}
+  m_AnchoredPosition: {x: 90, y: -306}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &287028830
@@ -960,7 +960,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &753440261
 RectTransform:
   m_ObjectHideFlags: 0
@@ -977,7 +977,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 250, y: -120}
+  m_AnchoredPosition: {x: 250, y: -100}
   m_SizeDelta: {x: 500, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &753440262
@@ -1175,10 +1175,10 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 119818297}
+  - {fileID: 287028829}
   - {fileID: 413820970}
   - {fileID: 684871782}
   - {fileID: 1891490903}
-  - {fileID: 287028829}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1347,6 +1347,7 @@ GameObject:
   - component: {fileID: 956715322}
   - component: {fileID: 956715325}
   - component: {fileID: 956715326}
+  - component: {fileID: 956715327}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -1523,6 +1524,25 @@ MonoBehaviour:
   faithGainPerSecond: 1
   maxFaith: 100
   faithBarImage: {fileID: 576239128}
+--- !u!114 &956715327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 956715321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a97b8b7cc4224000950f63c5c3c41946, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicTracks:
+  - {fileID: 8300000, guid: 7d957ee2969a82f48904a13890333767, type: 3}
+  - {fileID: 8300000, guid: 0c8bbafae435afc47a1fd86c621f59ff, type: 3}
+  - {fileID: 8300000, guid: a0ae5bc4fbf37344c9f1d51da8c4d440, type: 3}
+  - {fileID: 8300000, guid: db50fc5ebd02175498879094e5760cea, type: 3}
+  audioSource: {fileID: 956715325}
+  volume: 0.5
 --- !u!1 &995428753
 GameObject:
   m_ObjectHideFlags: 0
