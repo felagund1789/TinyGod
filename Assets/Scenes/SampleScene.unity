@@ -1548,8 +1548,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   population: 0
-  foodSurplus: 0
-  faith: 0
+  foodSurplus: 20
+  faith: 20
   maxFaith: 100
   uiController: {fileID: 767660175}
 --- !u!1 &968225371

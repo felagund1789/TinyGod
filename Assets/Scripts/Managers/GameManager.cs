@@ -1,3 +1,4 @@
+using System;
 using EventBus;
 using Events;
 using UnityEngine;
@@ -7,9 +8,9 @@ namespace Managers
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] private int population;
-        [SerializeField] private int foodSurplus;
-        [SerializeField] public int faith = 0;
+        [SerializeField] private int population = 0;
+        [SerializeField] private int foodSurplus = 20;
+        [SerializeField] private int faith = 20;
         [SerializeField] private int maxFaith = 100;
         [SerializeField] private UIController uiController;
 
@@ -43,16 +44,28 @@ namespace Managers
         private void OnNPCSpawnEvent(NPCSpawnEvent evt) => uiController.UpdatePopulation(++population);
         private void OnNPCDeathEvent(NPCDeathEvent evt) => uiController.UpdatePopulation(--population);
 
-        private void OnFoodProducedEvent(FoodProducedEvent evt) =>
-            uiController.UpdateFoodSurplus(foodSurplus += evt.Amount);
+        private void OnFoodProducedEvent(FoodProducedEvent evt)
+        {
+            foodSurplus += evt.Amount;
+            uiController.UpdateFoodSurplus(foodSurplus);
+        }
 
-        private void OnFoodConsumedEvent(FoodConsumedEvent evt) =>
-            uiController.UpdateFoodSurplus(foodSurplus -= evt.Amount);
+        private void OnFoodConsumedEvent(FoodConsumedEvent evt)
+        {
+            foodSurplus = Mathf.Max(0, foodSurplus - evt.Amount);
+            uiController.UpdateFoodSurplus(foodSurplus);
+        }
 
-        private void OnFaithGeneratedEvent(FaithGeneratedEvent evt) =>
-            uiController.UpdateFaith(Mathf.Clamp(faith += evt.Amount, 0, maxFaith), maxFaith);
+        private void OnFaithGeneratedEvent(FaithGeneratedEvent evt)
+        {
+            faith = Mathf.Min(faith + evt.Amount, maxFaith);
+            uiController.UpdateFaith(faith, maxFaith);
+        }
 
-        private void OnFaithUsedEvent(FaithUsedEvent evt) =>
-            uiController.UpdateFaith(Mathf.Clamp(faith -= evt.Amount, 0, maxFaith), maxFaith);
+        private void OnFaithUsedEvent(FaithUsedEvent evt)
+        {
+            faith = Mathf.Max(0, faith - evt.Amount);
+            uiController.UpdateFaith(faith, maxFaith);
+        }
     }
 }
