@@ -1,6 +1,7 @@
 using EventBus;
 using Events;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class Spawner : MonoBehaviour
@@ -9,9 +10,11 @@ public class Spawner : MonoBehaviour
     [SerializeField] private GameObject treePrefab;
     [SerializeField] private GameObject farmPrefab;
     [SerializeField] private GameObject followerPrefab;
+    [SerializeField] private LayerMask farmsLayerMask;
     [Range(1, 5)] [SerializeField] private int forestsCount = 2;
     [Range(10, 100)] [SerializeField] private int treesPerForest = 20;
     [Range(0.1f, 0.5f)] [SerializeField] private float maxDistance = 0.1f;
+    [Range(0.1f, 0.5f)] [SerializeField] private float clearRadius = 0.25f;
 
     void Start()
     {
@@ -37,15 +40,10 @@ public class Spawner : MonoBehaviour
 
     private void OnRainEvent(RainEvent evt)
     {
-        switch (evt.Type)
-        {
-            case RainType.Light:
-                SpawnPrefabs(evt.Location, farmPrefab);
-                break;
-            case RainType.Medium:
-                SpawnPrefabs(evt.Location, treePrefab);
-                break;
-        }
+        Collider[] farms = new Collider[1];
+        int count = Physics.OverlapSphereNonAlloc(evt.Location, clearRadius, farms, farmsLayerMask);
+        if (count == 0)
+            SpawnPrefabs(evt.Location, treePrefab, 10);
     }
 
     private void SpawnPrefabs(Vector3 location, GameObject prefab, int count = 5)
