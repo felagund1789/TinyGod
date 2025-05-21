@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Farm : AbstractSpawnable, IDestructible
 {
+    [SerializeField] private int cropYield = 10;
     private MeshRenderer _meshRenderer;
     private Coroutine _growCoroutine;
 
@@ -45,8 +46,7 @@ public class Farm : AbstractSpawnable, IDestructible
         _meshRenderer.material.color = Color.yellow;
         yield return new WaitForSeconds(2f); // simulate harvest time
 
-        int food = Random.Range(3, 6); // crop yield
-        Bus<FoodProducedEvent>.Raise(new FoodProducedEvent(food));
+        Bus<FoodProducedEvent>.Raise(new FoodProducedEvent(cropYield));
 
         // reset scale and color
         transform.localScale = initialScale;

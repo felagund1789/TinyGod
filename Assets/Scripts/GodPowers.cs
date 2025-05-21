@@ -16,8 +16,6 @@ public class GodPowers : MonoBehaviour
     [SerializeField] private GameObject planet;
     [SerializeField] private LayerMask planetLayer;
 
-    private Coroutine _rainCoroutine;
-
     public enum PowerType { Rain, Fireball }
     public PowerType currentPower = PowerType.Rain;
 
@@ -41,15 +39,15 @@ public class GodPowers : MonoBehaviour
         switch (currentPower)
         {
             case PowerType.Rain:
-                if (_rainCoroutine == null && gameManager.Faith >= 10)
+                if (gameManager.Faith >= 10)
                 {
                     Bus<FaithUsedEvent>.Raise(new FaithUsedEvent(10));
-                    _rainCoroutine = StartCoroutine(Rain(point));
+                    Coroutine rainCoroutine = StartCoroutine(Rain(point));
                 }
                 else
                 {
-                    uiController?.ShowMessage("Can't use Rain right now.", true);
-                    Debug.Log("Can't use Rain right now. Rain is already active or not enough faith.");
+                    uiController?.ShowMessage("Not enough faith to use Rain.", true);
+                    Debug.Log("Not enough faith to use Rain.");
                 }
                 break;
             case PowerType.Fireball:
@@ -81,7 +79,6 @@ public class GodPowers : MonoBehaviour
 
         rainParticles.Stop();
         Destroy(rainGameObject);
-        _rainCoroutine = null;
     }
 
     private void ThrowFireball(Vector3 point)
