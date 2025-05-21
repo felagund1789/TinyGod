@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 
 public class GodPowers : MonoBehaviour
 {
-    [SerializeField] private FaithManager faithManager;
+    [SerializeField] private GameManager gameManager;
     [SerializeField] private UIController uiController;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private GameObject rainEffect;
@@ -20,15 +20,6 @@ public class GodPowers : MonoBehaviour
 
     public enum PowerType { Rain, Fireball }
     public PowerType currentPower = PowerType.Rain;
-
-    private void Start()
-    {
-        uiController = FindFirstObjectByType<UIController>();
-        if (uiController == null)
-        {
-            Debug.LogError("UIController not found in the scene.");
-        }
-    }
 
     void Update()
     {
@@ -50,26 +41,26 @@ public class GodPowers : MonoBehaviour
         switch (currentPower)
         {
             case PowerType.Rain:
-                if (_rainCoroutine == null && faithManager.ConsumeFaith(10f))
+                if (_rainCoroutine == null && gameManager.Faith >= 10)
+                {
+                    Bus<FaithUsedEvent>.Raise(new FaithUsedEvent(10));
                     _rainCoroutine = StartCoroutine(Rain(point));
+                }
                 else
                 {
-                    if (uiController != null)
-                    {
-                        uiController.ShowMessage("Can't use Rain right now.", true);
-                    }
+                    uiController?.ShowMessage("Can't use Rain right now.", true);
                     Debug.Log("Can't use Rain right now. Rain is already active or not enough faith.");
                 }
                 break;
             case PowerType.Fireball:
-                if (faithManager.ConsumeFaith(20f))
+                if (gameManager.Faith >= 20)
+                {
+                    Bus<FaithUsedEvent>.Raise(new FaithUsedEvent(20));
                     ThrowFireball(point);
+                }
                 else
                 {
-                    if (uiController != null)
-                    {
-                        uiController.ShowMessage("Not enough faith to throw a fireball.", true);
-                    }
+                    uiController?.ShowMessage("Not enough faith to throw a fireball.", true);
                     Debug.Log("Not enough faith to throw a fireball.");
                 }
                 break;

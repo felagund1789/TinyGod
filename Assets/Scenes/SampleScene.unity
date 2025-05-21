@@ -1201,6 +1201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   populationText: {fileID: 1349761299}
   foodSurplusText: {fileID: 968225373}
+  faithBarImage: {fileID: 576239128}
   rainIcon: {fileID: 413820970}
   fireballIcon: {fileID: 684871782}
   rainButton: {fileID: 413820971}
@@ -1349,7 +1350,6 @@ GameObject:
   - component: {fileID: 956715324}
   - component: {fileID: 956715322}
   - component: {fileID: 956715325}
-  - component: {fileID: 956715326}
   - component: {fileID: 956715327}
   m_Layer: 0
   m_Name: Game
@@ -1408,7 +1408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3e21fa13ae807644abe2d53a7accc6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faithManager: {fileID: 956715326}
+  gameManager: {fileID: 956715328}
   uiController: {fileID: 767660175}
   mainCamera: {fileID: 330585545}
   rainEffect: {fileID: 852277127398752463, guid: d96bd7b058246bb43b70b8ef457d4358, type: 3}
@@ -1516,22 +1516,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &956715326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 956715321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be86a40fda024ca1ba3b1a1d363178c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  faith: 50
-  faithGainPerSecond: 1
-  maxFaith: 100
-  faithBarImage: {fileID: 576239128}
 --- !u!114 &956715327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1565,6 +1549,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   population: 0
   foodSurplus: 0
+  faith: 0
+  maxFaith: 100
   uiController: {fileID: 767660175}
 --- !u!1 &968225371
 GameObject:

@@ -11,6 +11,7 @@ namespace Managers
         [Header("UI Elements")]
         [SerializeField] private TextMeshProUGUI populationText;
         [SerializeField] private TextMeshProUGUI foodSurplusText;
+        [SerializeField] private Image faithBarImage;
         [SerializeField] private RectTransform rainIcon;
         [SerializeField] private RectTransform fireballIcon;
         [SerializeField] private Button rainButton;
@@ -65,6 +66,8 @@ namespace Managers
     
         public void UpdatePopulation(int population) => populationText.text = $"{population}";
         public void UpdateFoodSurplus(int food) => foodSurplusText.text = $"{food}";
+        public void UpdateFaith(int faith, int maxFaith) => 
+            faithBarImage.transform.localScale = new Vector3((float)faith / maxFaith, 1f, 1f);
 
         public void ShowMessage(string message, bool isError = false)
         {
