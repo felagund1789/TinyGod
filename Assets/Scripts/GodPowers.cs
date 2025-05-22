@@ -3,7 +3,6 @@ using EventBus;
 using Events;
 using Managers;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class GodPowers : MonoBehaviour
 {

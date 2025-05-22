@@ -11,7 +11,9 @@ public class NPCWalker : AbstractSpawnable, IDestructible
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float faithGenerationInterval = 5f;
     [SerializeField] private float foodConsumptionInterval = 5f;
-    [SerializeField] private float reproductionInterval = 20f;
+    [SerializeField] private float reproductionInterval = 24f;
+    [SerializeField] private float birthChance = 0.4f;
+    [SerializeField] private float lifespan = 80f;
     private float _faithGenerationTimer;
     private float _foodConsumptionTimer;
     private float _reproduceTimer;
@@ -22,9 +24,11 @@ public class NPCWalker : AbstractSpawnable, IDestructible
     {
         _faithGenerationTimer = faithGenerationInterval;
         _foodConsumptionTimer = foodConsumptionInterval;
+        _reproduceTimer = reproductionInterval;
         _movementTimer = Random.Range(5f, 15f);
         Bus<NPCSpawnEvent>.Raise(new NPCSpawnEvent());
         PickNewDirection();
+        Invoke(nameof(Destroy), lifespan);
     }
 
     void Update()
@@ -61,7 +65,7 @@ public class NPCWalker : AbstractSpawnable, IDestructible
         if (_reproduceTimer > 0) return;
 
         // spawn a new NPC with a 25% chance
-        if (Random.value < 0.25f)
+        if (Random.value < birthChance)
             Bus<NPCReproduceEvent>.Raise(new NPCReproduceEvent());
 
         _reproduceTimer = reproductionInterval;
