@@ -11,21 +11,30 @@ public class Spawner : MonoBehaviour
     [SerializeField] private GameObject farmPrefab;
     [SerializeField] private GameObject followerPrefab;
     [SerializeField] private LayerMask farmsLayerMask;
-    [Range(1, 5)] [SerializeField] private int forestsCount = 2;
-    [Range(10, 100)] [SerializeField] private int treesPerForest = 20;
-    [Range(0.1f, 0.5f)] [SerializeField] private float maxDistance = 0.1f;
-    [Range(0.1f, 0.5f)] [SerializeField] private float clearRadius = 0.25f;
+    [SerializeField] private int startingPopulation = 5;
+    [SerializeField] private int startingFarms = 5;
+    [SerializeField] private int forestsCount = 2;
+    [SerializeField] private int treesPerForest = 20;
+    [SerializeField] private float farmSpawnInterval = 30f;
+    [SerializeField] private float maxDistance = 0.1f;
+    [SerializeField] private float clearRadius = 0.25f;
 
     void Start()
     {
-        for (int i = 0; i < 5; i++)
-        {
-            SpawnPrefabs(Random.onUnitSphere, farmPrefab, 1);
-            SpawnPrefabs(Random.onUnitSphere, followerPrefab, 1);
-        }
-
+        // Spawn initial trees
         for (int i = 0; i < forestsCount; i++)
             SpawnPrefabs(Random.onUnitSphere, treePrefab, treesPerForest);
+
+        // Spawn initial followers
+        for (int i = 0; i < startingPopulation; i++)
+            SpawnPrefabs(Random.onUnitSphere, followerPrefab, 1);
+
+        // Spawn initial farms
+        for (int i = 0; i < startingFarms; i++)
+            SpawnPrefabs(Random.onUnitSphere, farmPrefab, 1);
+
+        // Spawn a new farm every farmSpawnInterval seconds
+        InvokeRepeating(nameof(SpawnSingleFarm), farmSpawnInterval, farmSpawnInterval);
     }
 
     private void Awake()
@@ -66,4 +75,6 @@ public class Spawner : MonoBehaviour
             spawnable.GetComponent<AbstractSpawnable>().Spawn(targetPosition, direction);
         }
     }
+
+    private void SpawnSingleFarm() => SpawnPrefabs(Random.onUnitSphere, farmPrefab, 1);
 }
