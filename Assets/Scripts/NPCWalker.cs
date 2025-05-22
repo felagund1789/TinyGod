@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using EventBus;
 using Events;
 using Managers;
@@ -27,13 +28,13 @@ public class NPCWalker : AbstractSpawnable, IDestructible
         _reproduceTimer = reproductionInterval;
         _movementTimer = Random.Range(5f, 15f);
         Bus<NPCSpawnEvent>.Raise(new NPCSpawnEvent());
+        PickRandomBody();
         PickNewDirection();
         Invoke(nameof(Destroy), lifespan);
     }
 
     void Update()
     {
-
         // update timers
         _faithGenerationTimer -= Time.deltaTime;
         _movementTimer -= Time.deltaTime;
@@ -92,6 +93,22 @@ public class NPCWalker : AbstractSpawnable, IDestructible
     private void PickNewDirection()
     {
         _targetDir = Random.onUnitSphere;
+    }
+
+    private void PickRandomBody()
+    {
+        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
+        Debug.Log(meshRenderers.Length);
+        GameObject[] children = meshRenderers.Where(meshRenderer => meshRenderer.transform.parent == transform)
+            .Select(meshRenderer => meshRenderer.gameObject).ToArray();
+        Debug.Log(children.Length);
+        
+        int randomIndex = Random.Range(0, children.Length);
+        for (int i = 0; i < children.Length; i++)
+        {
+            Debug.Log(children[i].name);
+            children[i].SetActive(i == randomIndex);
+        }
     }
 
     private void OnDestroy()
