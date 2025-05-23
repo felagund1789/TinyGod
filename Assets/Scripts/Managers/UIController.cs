@@ -30,27 +30,28 @@ namespace Managers
         [SerializeField] private Color normalColor = Color.white;
 
 
-        private GodPowers godPowers;
+        private GodPowers _godPowers;
         private Coroutine _messageCoroutine;
 
         private void Start()
         {
-            godPowers = FindFirstObjectByType<GodPowers>();
-            if (godPowers == null)
+            _godPowers = FindFirstObjectByType<GodPowers>();
+            if (_godPowers == null)
             {
                 Debug.LogError("GodPowers not found in the scene.");
                 return;
             }
 
             // Setup button click handlers
-            rainButton.onClick.AddListener(() => godPowers.currentPower = PowerType.Rain);
-            fireballButton.onClick.AddListener(() => godPowers.currentPower = PowerType.Fireball);
+            rainButton.onClick.AddListener(() => _godPowers.currentPower = PowerType.Rain);
+            fireballButton.onClick.AddListener(() => _godPowers.currentPower = PowerType.Fireball);
         }
 
         private void Update()
         {
             // Smoothly animate icons based on current power
-            bool isRainSelected = godPowers.currentPower == PowerType.Rain;
+            bool isRainSelected = _godPowers.currentPower == PowerType.Rain;
+            bool isFireballSelected = _godPowers.currentPower == PowerType.Fireball;
 
             rainIcon.localScale = Vector3.Lerp(
                 rainIcon.localScale,
@@ -60,7 +61,7 @@ namespace Managers
 
             fireballIcon.localScale = Vector3.Lerp(
                 fireballIcon.localScale,
-                Vector3.one * (isRainSelected ? normalScale : selectedScale),
+                Vector3.one * (isFireballSelected ? selectedScale : normalScale),
                 Time.deltaTime * animationSpeed
             );
         }
