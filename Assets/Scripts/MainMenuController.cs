@@ -17,7 +17,7 @@ public class MainMenuController : MonoBehaviour
     void Update()
     {
         // Slowly rotate the planet for visual effect
-        planet.transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
+        planet.transform.Rotate(Vector3.up, -rotationSpeed * Time.deltaTime);
     }
 
     private void StartGame()
