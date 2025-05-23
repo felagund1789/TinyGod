@@ -3,6 +3,8 @@ using EventBus;
 using Events;
 using Managers;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class GodPowers : MonoBehaviour
 {
@@ -35,6 +37,9 @@ public class GodPowers : MonoBehaviour
 
     void UsePower(Vector3 point)
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+
         switch (currentPower)
         {
             case PowerType.Rain:
