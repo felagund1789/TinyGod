@@ -22,6 +22,10 @@ public class GodPowers : MonoBehaviour
 
     void Update()
     {
+        // If the game is paused, do not process input
+        if (Time.timeScale == 0f)
+            return;
+
         if (Input.GetKeyDown(KeyCode.Alpha1)) currentPower = PowerType.Rain;
         if (Input.GetKeyDown(KeyCode.Alpha2)) currentPower = PowerType.Fireball;
 
