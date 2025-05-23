@@ -1,15 +1,19 @@
+using System;
 using UnityEngine;
 
 public class Fireball : MonoBehaviour
 {
-    void OnCollisionEnter(Collision col)
+    private void Awake()
     {
-        if (col.gameObject.CompareTag("Tree") || col.gameObject.CompareTag("NPC") || col.gameObject.CompareTag("Farm"))
-        {
-            Debug.Log($"Destroying {col.gameObject.name}");
-            Destroy(col.gameObject); // burn!
-        }
-        gameObject.GetComponent<Rigidbody>().isKinematic = true; // stop moving
-        Destroy(gameObject, 0.5f);
+        Destroy(gameObject, 1.25f);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // Check if the other object has the IDestructible interface
+        if (!other.gameObject.TryGetComponent(out IDestructible _)) return;
+
+        Debug.Log($"Destroying {other.gameObject.name}");
+        Destroy(other.gameObject); // burn!
     }
 }

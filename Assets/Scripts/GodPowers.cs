@@ -1,11 +1,13 @@
 using System.Collections;
 using EventBus;
 using Events;
+using Managers;
 using UnityEngine;
 
 public class GodPowers : MonoBehaviour
 {
-    [SerializeField] private FaithManager faithManager;
+    [SerializeField] private GameManager gameManager;
+    [SerializeField] private UIController uiController;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private GameObject rainEffect;
     [SerializeField] private GameObject fireballPrefab;
@@ -13,20 +15,8 @@ public class GodPowers : MonoBehaviour
     [SerializeField] private GameObject planet;
     [SerializeField] private LayerMask planetLayer;
 
-    private UIController uiController;
-    private Coroutine _rainCoroutine;
-
     public enum PowerType { Rain, Fireball }
     public PowerType currentPower = PowerType.Rain;
-
-    private void Start()
-    {
-        uiController = FindFirstObjectByType<UIController>();
-        if (uiController == null)
-        {
-            Debug.LogError("UIController not found in the scene.");
-        }
-    }
 
     void Update()
     {
@@ -48,26 +38,26 @@ public class GodPowers : MonoBehaviour
         switch (currentPower)
         {
             case PowerType.Rain:
-                if (_rainCoroutine == null && faithManager.ConsumeFaith(10f))
-                    _rainCoroutine = StartCoroutine(Rain(point));
+                if (gameManager.Faith >= 10)
+                {
+                    Bus<FaithUsedEvent>.Raise(new FaithUsedEvent(10));
+                    Coroutine rainCoroutine = StartCoroutine(Rain(point));
+                }
                 else
                 {
-                    if (uiController != null)
-                    {
-                        uiController.ShowMessage("Can't use Rain right now.", true);
-                    }
-                    Debug.Log("Can't use Rain right now. Rain is already active or not enough faith.");
+                    uiController?.ShowMessage("Not enough faith to use Rain.", true);
+                    Debug.Log("Not enough faith to use Rain.");
                 }
                 break;
             case PowerType.Fireball:
-                if (faithManager.ConsumeFaith(20f))
+                if (gameManager.Faith >= 20)
+                {
+                    Bus<FaithUsedEvent>.Raise(new FaithUsedEvent(20));
                     ThrowFireball(point);
+                }
                 else
                 {
-                    if (uiController != null)
-                    {
-                        uiController.ShowMessage("Not enough faith to throw a fireball.", true);
-                    }
+                    uiController?.ShowMessage("Not enough faith to throw a fireball.", true);
                     Debug.Log("Not enough faith to throw a fireball.");
                 }
                 break;
@@ -88,7 +78,6 @@ public class GodPowers : MonoBehaviour
 
         rainParticles.Stop();
         Destroy(rainGameObject);
-        _rainCoroutine = null;
     }
 
     private void ThrowFireball(Vector3 point)
