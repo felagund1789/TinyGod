@@ -22,7 +22,7 @@ public class MainMenuController : MonoBehaviour
 
     private void StartGame()
     {
-        SceneTransition.LoadScene("SampleScene");
+        SceneTransition.LoadScene("Game");
     }
 
     private void QuitGame()
