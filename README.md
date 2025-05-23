@@ -70,6 +70,7 @@ Assets/
   - [Stylized Lava materials by Rob luo](https://assetstore.unity.com/packages/p/stylized-lava-materials-180943)
   - [Free Quick Effects Vol. 1 by Gabriel Aguiar Prod](https://assetstore.unity.com/packages/vfx/particles/free-quick-effects-vol-1-304424)
   - [Basic RPG Icons by PONETI](https://assetstore.unity.com/packages/2d/gui/icons/basic-rpg-icons-181301)
+  - [GameDev Essential Kit - Capsule [Free Edition]](https://assetstore.unity.com/packages/3d/characters/gamedev-essential-kit-capsule-free-edition-307339)
 
 ---
 

@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 4748669492055754290}
   - component: {fileID: 711316036273672312}
   - component: {fileID: 7349435590620986464}
-  - component: {fileID: 285724706110793008}
-  m_Layer: 0
+  - component: {fileID: 4165357895819287092}
+  m_Layer: 7
   m_Name: Farm
   m_TagString: Farm
   m_Icon: {fileID: 0}
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.05, y: 0.01, z: 0.05}
+  m_LocalScale: {x: 0.1, y: 0.01, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -109,7 +109,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &285724706110793008
+--- !u!114 &4165357895819287092
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,7 +118,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3374382380563411602}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7be5c6de043e4589bf94ca2663fd02bb, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f54283b1fe0457790f08e0f175c25c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <TimeToGrow>k__BackingField: 0.5
