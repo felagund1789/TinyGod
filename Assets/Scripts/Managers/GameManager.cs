@@ -16,13 +16,16 @@ namespace Managers
         [SerializeField] private int maxHappiness = 100;
         [SerializeField] private UIController uiController;
 
-        private int maxPopulationReached = 0;
+        private float _beginningOfTime = 0f; // Current game year, can be used for time-based events
+        private int _maxPopulationReached = 0;
 
         public float Faith => faith;
         public int Happiness => happiness;
 
         private void Start()
         {
+            // Initialize game state
+            _beginningOfTime = Time.time;
             Bus<NPCSpawnEvent>.OnEvent += OnNPCSpawnEvent;
             Bus<NPCDeathEvent>.OnEvent += OnNPCDeathEvent;
             Bus<FoodProducedEvent>.OnEvent += OnFoodProducedEvent;
@@ -50,7 +53,7 @@ namespace Managers
         private void OnNPCSpawnEvent(NPCSpawnEvent evt)
         {
             uiController.UpdatePopulation(++population);
-            maxPopulationReached = Mathf.Max(maxPopulationReached, population);
+            _maxPopulationReached = Mathf.Max(_maxPopulationReached, population);
         }
 
         private void OnNPCDeathEvent(NPCDeathEvent evt)
@@ -95,7 +98,8 @@ namespace Managers
             if (population <= 0 || happiness <= 0)
             {
                 // Trigger game over logic
-                PlayerPrefs.SetInt("LastGameScore", maxPopulationReached); // Save last score
+                PlayerPrefs.SetInt("MaxPopulationReached", _maxPopulationReached); // Save last score
+                PlayerPrefs.SetInt("YearReached", Mathf.FloorToInt(Time.time - _beginningOfTime)); // "Years" passed
                 SceneTransition.LoadScene("GameOver");
             }
         }

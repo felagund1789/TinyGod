@@ -1,32 +1,40 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
-public class GameOverController : MonoBehaviour
+namespace Managers
 {
-    [SerializeField] private Button restartButton;
-    [SerializeField] private Button quitButton;
-    [SerializeField] private TextMeshProUGUI scoreText;
-
-    void Start()
+    public class GameOverController : MonoBehaviour
     {
-        restartButton.onClick.AddListener(RestartGame);
-        quitButton.onClick.AddListener(QuitToMenu);
+        [SerializeField] private Button restartButton;
+        [SerializeField] private Button quitButton;
+        [SerializeField] private TextMeshProUGUI scoreText;
 
-        // Display final score/stats
-        if (PlayerPrefs.HasKey("LastGameScore"))
+        void Start()
         {
-            scoreText.text = $"Your civilization reached population of {PlayerPrefs.GetInt("LastGameScore")} before collapsing...";
+            restartButton.onClick.AddListener(RestartGame);
+            quitButton.onClick.AddListener(QuitToMenu);
+
+            // Display final score/stats
+            if (PlayerPrefs.HasKey("YearReached"))
+            {
+                scoreText.text = $"You survived until year {PlayerPrefs.GetInt("YearReached")}.";
+            }
+
+            if (PlayerPrefs.HasKey("MaxPopulationReached"))
+            {
+                scoreText.text += $"\nYour civilization reached population of {PlayerPrefs.GetInt("MaxPopulationReached")} before collapsing...";
+            }
         }
-    }
 
-    private void RestartGame()
-    {
-        SceneTransition.LoadScene("Game");
-    }
+        private void RestartGame()
+        {
+            SceneTransition.LoadScene("Game");
+        }
 
-    private void QuitToMenu()
-    {
-        SceneTransition.LoadScene("MainMenu");
+        private void QuitToMenu()
+        {
+            SceneTransition.LoadScene("MainMenu");
+        }
     }
 }
