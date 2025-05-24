@@ -31,7 +31,15 @@ namespace Managers
             Invoke(nameof(ShowWelcomeMessage), 1f);
             Invoke(nameof(ShowRightClickToRotateMessage), 2f);
         }
-        
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                QuitTutorial();
+            }
+        }
+
         private void OnDestroy()
         {
             Bus<FaithUsedEvent>.OnEvent -= OnFaithUsedEvent;
@@ -85,7 +93,9 @@ If there is not enough food, they will become unhappy and their faith in you wil
             ShowMessage(@"Welcome to Tiny God!
 
 You are a god who watches over a tiny planet with tiny followers.
-Use your powers to help them grow and thrive.");
+Use your powers to help them grow and thrive.
+
+Press T to quit this tutorial at any time.");
 
         private void ShowRightClickToRotateMessage() =>
             ShowMessage(@"You can right-click and move the mouse to rotate the planet.
@@ -104,6 +114,16 @@ Left click on the planet to use the selected power.");
         {
             tutorialBackgroundPanel.SetActive(false);
             Time.timeScale = 1;
+        }
+
+        private void QuitTutorial()
+        {
+            if (Time.timeScale == 0)
+            {
+                // If the game is paused and the tutorial is closed, unpause the game
+                Time.timeScale = 1;
+            }
+            Destroy(gameObject);
         }
     }
 }

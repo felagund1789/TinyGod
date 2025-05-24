@@ -14,7 +14,7 @@ namespace Managers
 
         void Awake()
         {
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject); // Commented out because it would play multiple sounds if we navigated to main menu
             audioSource.volume = volume;
             audioSource.playOnAwake = false;
         }
@@ -27,7 +27,7 @@ namespace Managers
 
         void Update()
         {
-            if (!audioSource.isPlaying)
+            if (!audioSource.isPlaying && (Time.timeScale != 0f))
                 PlayNextTrack();
         }
 

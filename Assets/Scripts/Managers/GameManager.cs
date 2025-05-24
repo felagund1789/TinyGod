@@ -16,6 +16,8 @@ namespace Managers
         [SerializeField] private int maxHappiness = 100;
         [SerializeField] private UIController uiController;
 
+        private int maxPopulationReached = 0;
+
         public float Faith => faith;
         public int Happiness => happiness;
 
@@ -45,8 +47,17 @@ namespace Managers
             Bus<FaithUsedEvent>.OnEvent -= OnFaithUsedEvent;
         }
 
-        private void OnNPCSpawnEvent(NPCSpawnEvent evt) => uiController.UpdatePopulation(++population);
-        private void OnNPCDeathEvent(NPCDeathEvent evt) => uiController.UpdatePopulation(--population);
+        private void OnNPCSpawnEvent(NPCSpawnEvent evt)
+        {
+            uiController.UpdatePopulation(++population);
+            maxPopulationReached = Mathf.Max(maxPopulationReached, population);
+        }
+
+        private void OnNPCDeathEvent(NPCDeathEvent evt)
+        {
+            uiController.UpdatePopulation(--population);
+            CheckGameOver();
+        }
 
         private void OnFoodProducedEvent(FoodProducedEvent evt)
         {
@@ -64,6 +75,7 @@ namespace Managers
 
             happiness = Mathf.Clamp(maxHappiness + foodSurplus, 0, maxHappiness);
             uiController.UpdateHappiness(happiness, maxHappiness);
+            CheckGameOver();
         }
 
         private void OnFaithGeneratedEvent(FaithGeneratedEvent evt)
@@ -76,6 +88,16 @@ namespace Managers
         {
             faith = Mathf.Max(0, faith - evt.Amount);
             uiController.UpdateFaith(faith, maxFaith);
+        }
+
+        private void CheckGameOver()
+        {
+            if (population <= 0 || happiness <= 0)
+            {
+                // Trigger game over logic
+                PlayerPrefs.SetInt("LastGameScore", maxPopulationReached); // Save last score
+                SceneTransition.LoadScene("GameOver");
+            }
         }
     }
 }
