@@ -16,7 +16,7 @@ public class GameOverController : MonoBehaviour
         // Display final score/stats
         if (PlayerPrefs.HasKey("LastGameScore"))
         {
-            scoreText.text = $"Your civilization reached {PlayerPrefs.GetInt("LastGameScore")} population before collapsing...";
+            scoreText.text = $"Your civilization reached population of {PlayerPrefs.GetInt("LastGameScore")} before collapsing...";
         }
     }
 
