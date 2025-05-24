@@ -11,6 +11,7 @@ namespace Managers
         [Header("UI Elements")]
         [SerializeField] private TextMeshProUGUI populationText;
         [SerializeField] private TextMeshProUGUI foodSurplusText;
+        [SerializeField] private TextMeshProUGUI currentYearText;
         [SerializeField] private Image faithBarImage;
         [SerializeField] private Image happinessBarImage;
         [SerializeField] private RectTransform rainIcon;
@@ -32,9 +33,11 @@ namespace Managers
 
         private GodPowers _godPowers;
         private Coroutine _messageCoroutine;
+        private float _beginningOfTime;
 
         private void Start()
         {
+            _beginningOfTime = Time.time;
             _godPowers = FindFirstObjectByType<GodPowers>();
             if (_godPowers == null)
             {
@@ -49,6 +52,10 @@ namespace Managers
 
         private void Update()
         {
+            // Show the current year in the top of the screen
+            float currentYear = Mathf.FloorToInt(Time.time - _beginningOfTime);
+            currentYearText.text = $"Year {currentYear}";
+
             // Smoothly animate icons based on current power
             bool isRainSelected = _godPowers.currentPower == PowerType.Rain;
             bool isFireballSelected = _godPowers.currentPower == PowerType.Fireball;
