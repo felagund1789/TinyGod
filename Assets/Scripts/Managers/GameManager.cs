@@ -2,7 +2,6 @@ using System;
 using EventBus;
 using Events;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Managers
 {
@@ -18,6 +17,7 @@ namespace Managers
 
         private float _beginningOfTime = 0f; // Current game year, can be used for time-based events
         private int _maxPopulationReached = 0;
+        private bool gameOver = false;
 
         public float Faith => faith;
         public int Happiness => happiness;
@@ -95,9 +95,11 @@ namespace Managers
 
         private void CheckGameOver()
         {
+            if (gameOver) return; // Prevent multiple game over triggers
             if (population <= 0 || happiness <= 0)
             {
                 // Trigger game over logic
+                gameOver = true;
                 PlayerPrefs.SetInt("MaxPopulationReached", _maxPopulationReached); // Save last score
                 PlayerPrefs.SetInt("YearReached", Mathf.FloorToInt(Time.time - _beginningOfTime)); // "Years" passed
                 SceneTransition.LoadScene("GameOver");
