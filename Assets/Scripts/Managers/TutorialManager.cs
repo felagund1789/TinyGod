@@ -50,15 +50,17 @@ namespace Managers
             _npcReproduceMessageShown = true;
             ShowMessage("Every sometime, your followers will reproduce and create new followers. " +
                         "More followers means more faith is generated. But followers consume food, " +
-                        "so make sure you have enough food to feed them all!");
+                        "so make sure you have enough food to feed them all! " +
+                        "You should strive to keep a balance between food production and population.");
         }
 
         private void OnFoodProducedEvent(FoodProducedEvent args)
         {
             if (_foodProducedMessageShown) return;
             _foodProducedMessageShown = true;
-            ShowMessage("Your farms produce food which your followers will consume. " +
-                        "If there is not enough food, they will become unhappy and their faith in you will dwindle.");
+            ShowMessage(@"Your farms produce food which your followers will consume. " +
+                        "If there is not enough food, they will become unhappy and their faith in you will dwindle. " +
+                        "Tip: Wait until the crop is harvested before using the Rain power again.");
 
             // Show the message for 5 seconds
             Invoke(nameof(CloseTutorial), 5f);
@@ -77,8 +79,9 @@ namespace Managers
         }
 
         private void ShowRightClickToRotateMessage() =>
-            ShowMessage("You can right-click and move the mouse to rotate the planet. " +
-                        "Left click on the planet to use the selected power.");
+            ShowMessage(@"Controls
+
+Right-click and move the mouse to rotate the planet. Left click on the planet to use the selected power.");
 
         private void ShowMessage(string message)
         {
