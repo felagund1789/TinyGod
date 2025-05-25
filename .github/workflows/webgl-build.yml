@@ -21,6 +21,8 @@ jobs:
           FILE_NAME="AssetPacks.zip"
           curl -c ./cookie -s -L "https://drive.google.com/uc?export=download&id=${FILE_ID}" > /tmp/intermediate.html
           CONFIRM_CODE=$(grep -o 'confirm=[^&]*' /tmp/intermediate.html | sed 's/confirm=//')
+          echo "Confirm Code: ${CONFIRM_CODE}"
+          echo "https://drive.google.com/uc?export=download&confirm=${CONFIRM_CODE}&id=${FILE_ID}"
           curl -Lb ./cookie "https://drive.google.com/uc?export=download&confirm=${CONFIRM_CODE}&id=${FILE_ID}" -o ${FILE_NAME}
           unzip -o ${FILE_NAME} -d Assets/AssetPacks
 
