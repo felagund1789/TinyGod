@@ -21,30 +21,21 @@ jobs:
           FILE_NAME="AssetPacks.zip"
           echo "Downloading AssetPacks.zip from Google Drive with ID: ${FILE_ID}"
           curl -c ./cookie -s -L "https://drive.google.com/uc?export=download&id=${FILE_ID}" > /tmp/intermediate.html
-
-          echo "Checking for confirmation code..."
           # Read from the saved HTML
           ACTION_URL=$(grep -oP 'action="\K[^"]+' /tmp/intermediate.html)
           FILE_ID=$(grep -oP 'name="id" value="\K[^"]+' /tmp/intermediate.html)
-          AUTHUSER=$(grep -oP 'name="authuser" value="\K[^"]+' /tmp/intermediate.html)
-          CONFIRM=$(grep -o 'confirm=[^&"]*' /tmp/intermediate.html | sed 's/confirm=//')
+          CONFIRM=$(grep -oP 'name="confirm" value="\K[^"]+' /tmp/intermediate.html)
           UUID=$(grep -oP 'name="uuid" value="\K[^"]+' /tmp/intermediate.html)
-          AT=$(grep -oP 'name="at" value="\K[^"]+' /tmp/intermediate.html)
           echo "Action URL: ${ACTION_URL}"
-          echo "Confirm Code: ${CONFIRM_CODE}"
-          echo "Auth User: ${AUTHUSER}"
-          echo "UUID: ${UUID}"
-          echo "AT: ${AT}"
-          
+          echo "Confirm: ${CONFIRM}"
+          echo "UUID: ${UUID}"          
           # Build the final URL and download the file
           curl -Lb ./cookie -G "$ACTION_URL" \
             --output AssetPacks.zip \
             --data-urlencode "id=$FILE_ID" \
-            --data-urlencode "export=$EXPORT" \
-            --data-urlencode "authuser=$AUTHUSER" \
+            --data-urlencode "export=download" \
             --data-urlencode "confirm=$CONFIRM" \
-            --data-urlencode "uuid=$UUID" \
-            --data-urlencode "at=$AT"
+            --data-urlencode "uuid=$UUID"
             -o ${FILE_NAME}
           unzip -o ${FILE_NAME} -d Assets/AssetPacks
 
