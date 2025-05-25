@@ -1,0 +1,63 @@
+name: Unity WebGL Build
+
+on:
+  workflow_dispatch: 
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  buildWebGL:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download AssetPacks.zip from Google Drive
+        run: |
+          sudo apt-get install -y unzip curl
+          FILE_ID="1yD2tK7ABZxTakIah7dPb40P02uDiGo0G"
+          FILE_NAME="AssetPacks.zip"
+          echo "Downloading AssetPacks.zip from Google Drive with ID: ${FILE_ID}"
+          curl -c ./cookie -s -L "https://drive.google.com/uc?export=download&id=${FILE_ID}" > /tmp/intermediate.html
+          # Read from the saved HTML
+          ACTION_URL=$(grep -oP 'action="\K[^"]+' /tmp/intermediate.html)
+          FILE_ID=$(grep -oP 'name="id" value="\K[^"]+' /tmp/intermediate.html)
+          CONFIRM=$(grep -oP 'name="confirm" value="\K[^"]+' /tmp/intermediate.html)
+          UUID=$(grep -oP 'name="uuid" value="\K[^"]+' /tmp/intermediate.html)
+          echo "Action URL: ${ACTION_URL}"
+          echo "Confirm: ${CONFIRM}"
+          echo "UUID: ${UUID}"          
+          # Build the final URL and download the file
+          curl -Lb ./cookie -G "$ACTION_URL" \
+            --output AssetPacks.zip \
+            --data-urlencode "id=$FILE_ID" \
+            --data-urlencode "export=download" \
+            --data-urlencode "confirm=$CONFIRM" \
+            --data-urlencode "uuid=$UUID"
+          unzip -o ${FILE_NAME} -d Assets/AssetPacks
+
+      - name: Cache Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-WebGL-${{ hashFiles('**/Assets/**', '**/Packages/**', '**/ProjectSettings/**') }}
+          restore-keys: |
+            Library-WebGL-
+
+      - name: Build WebGL
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          allowDirtyBuild: true
+          targetPlatform: WebGL
+
+      - name: Upload Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: WebGL-Build
+          path: build/WebGL
