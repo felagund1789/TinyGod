@@ -19,8 +19,10 @@ jobs:
           sudo apt-get install -y unzip curl
           FILE_ID="1yD2tK7ABZxTakIah7dPb40P02uDiGo0G"
           FILE_NAME="AssetPacks.zip"
+          echo "Downloading AssetPacks.zip from Google Drive with ID: ${FILE_ID}"
           curl -c ./cookie -s -L "https://drive.google.com/uc?export=download&id=${FILE_ID}" > /tmp/intermediate.html
 
+          echo "Checking for confirmation code..."
           # Read from the saved HTML
           ACTION_URL=$(grep -oP 'action="\K[^"]+' /tmp/intermediate.html)
           FILE_ID=$(grep -oP 'name="id" value="\K[^"]+' /tmp/intermediate.html)
