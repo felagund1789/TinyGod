@@ -36,7 +36,6 @@ jobs:
             --data-urlencode "export=download" \
             --data-urlencode "confirm=$CONFIRM" \
             --data-urlencode "uuid=$UUID"
-            -o ${FILE_NAME}
           unzip -o ${FILE_NAME} -d Assets/AssetPacks
 
       - name: Cache Library
