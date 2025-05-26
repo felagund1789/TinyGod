@@ -2837,7 +2837,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   population: 0
   foodSurplus: 20
-  faith: 100
+  faith: 50
   maxFaith: 100
   happiness: 100
   maxHappiness: 100
@@ -4476,10 +4476,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18fd572012492bd4383588f3977f560e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  godPowers: {fileID: 0}
+  godPowers: {fileID: 956715324}
   welcomeMessagePanel: {fileID: 325059194}
   powersExplanationPanel: {fileID: 1590388753}
-  lightningInfoPanel: {fileID: 0}
+  lightningInfoPanel: {fileID: 841292252}
   tutorialMessagePanel: {fileID: 868686704}
   tutorialMessageText: {fileID: 1253081525}
 --- !u!1 &1590388753

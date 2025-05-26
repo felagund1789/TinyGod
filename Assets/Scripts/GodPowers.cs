@@ -23,7 +23,7 @@ public class GodPowers : MonoBehaviour
 
     public enum PowerType { Rain, Fireball, Lightning }
     public PowerType currentPower = PowerType.Rain;
-    public float LightningDiscoverTime { get; private set;  } = 300f;
+    public float LightningDiscoverTime { get; private set;  } = 100f;
     private float _beginningOfTime = float.MaxValue;
     public bool IsLightningDiscovered => Time.time - _beginningOfTime >= LightningDiscoverTime;
 
