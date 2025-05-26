@@ -5281,7 +5281,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1588483830}
         m_TargetAssemblyTypeName: Managers.TutorialManager, Assembly-CSharp
-        m_MethodName: ClosePowersExplainer
+        m_MethodName: CloseLightningInfo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
