@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using EventBus;
 using Events;
@@ -5,20 +6,31 @@ using Managers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
+using Random = UnityEngine.Random;
 
 public class GodPowers : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
     [SerializeField] private UIController uiController;
     [SerializeField] private Camera mainCamera;
+    [SerializeField] private GameObject lightningEffect;
     [SerializeField] private GameObject rainEffect;
     [SerializeField] private GameObject fireballPrefab;
     [SerializeField] private float fireballForce = 500f;
     [SerializeField] private GameObject planet;
     [SerializeField] private LayerMask planetLayer;
 
-    public enum PowerType { Rain, Fireball }
+    public enum PowerType { Rain, Fireball, Lightning }
     public PowerType currentPower = PowerType.Rain;
+    public float LightningDiscoverTime { get; private set;  } = 300f;
+    private float _beginningOfTime = float.MaxValue;
+    public bool IsLightningDiscovered => Time.time - _beginningOfTime >= LightningDiscoverTime;
+
+    private void Start()
+    {
+        _beginningOfTime = Time.time;
+    }
 
     void Update()
     {
@@ -28,6 +40,7 @@ public class GodPowers : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) currentPower = PowerType.Rain;
         if (Input.GetKeyDown(KeyCode.Alpha2)) currentPower = PowerType.Fireball;
+        if (Input.GetKeyDown(KeyCode.Alpha3) && IsLightningDiscovered) currentPower = PowerType.Lightning;
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -70,6 +83,19 @@ public class GodPowers : MonoBehaviour
                     Debug.Log("Not enough faith to throw a fireball.");
                 }
                 break;
+            case PowerType.Lightning:
+                if (!IsLightningDiscovered) break;
+                if (gameManager.Faith >= 20)
+                {
+                    Bus<FaithUsedEvent>.Raise(new FaithUsedEvent(20));
+                    Coroutine lightningCoroutine = StartCoroutine(StrikeWithLightning(point));
+                }
+                else
+                {
+                    uiController?.ShowMessage("Not enough faith to strike with lightning.", true);
+                    Debug.Log("Not enough faith to strike with lightning.");
+                }
+                break;
         }
     }
 
@@ -93,5 +119,22 @@ public class GodPowers : MonoBehaviour
     {
         GameObject fb = Instantiate(fireballPrefab, mainCamera.transform.position, Quaternion.identity);
         fb.GetComponent<Rigidbody>().AddForce((point - fb.transform.position).normalized * fireballForce);
+    }
+
+    
+    private IEnumerator StrikeWithLightning(Vector3 point)
+    {
+        Vector3 direction = point.normalized;
+        Vector3 position = point + direction * 0.2f;
+        GameObject lightningGameObject = Instantiate(lightningEffect, position, Quaternion.identity, planet.transform);
+        lightningGameObject.transform.up = direction;
+        lightningGameObject.transform.localScale *= 0.1f;
+        ParticleSystem lightningParticles = lightningGameObject.GetComponent<ParticleSystem>();
+
+        Bus<LightningEvent>.Raise(new LightningEvent(point));
+        yield return new WaitForSeconds(4f);
+
+        lightningParticles.Stop();
+        Destroy(lightningGameObject);
     }
 }
