@@ -50,6 +50,7 @@ namespace Managers
             // Setup button click handlers
             rainButton.onClick.AddListener(() => _godPowers.currentPower = PowerType.Rain);
             fireballButton.onClick.AddListener(() => _godPowers.currentPower = PowerType.Fireball);
+            lightningButton.onClick.AddListener(() => _godPowers.currentPower = PowerType.Lightning);
         }
 
         private void Update()
