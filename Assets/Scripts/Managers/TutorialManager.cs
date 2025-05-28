@@ -92,7 +92,10 @@ namespace Managers
         private void ShowRightClickToRotateMessage() =>
             ShowMessage(@"Controls
 
-Right-click and move the mouse to rotate the planet. Left click on the planet to use the selected power.");
+Right or left click and move the mouse
+(or tap and drag on mobile) to rotate
+the planet. Left click (or single tap)
+on the planet to use the selected power.");
 
         private void ShowMessage(string message)
         {

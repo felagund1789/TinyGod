@@ -11,6 +11,7 @@ using Random = UnityEngine.Random;
 
 public class GodPowers : MonoBehaviour
 {
+    [SerializeField] private PlanetController planetController;
     [SerializeField] private GameManager gameManager;
     [SerializeField] private UIController uiController;
     [SerializeField] private Camera mainCamera;
@@ -23,7 +24,7 @@ public class GodPowers : MonoBehaviour
 
     public enum PowerType { Rain, Fireball, Lightning }
     public PowerType currentPower = PowerType.Rain;
-    public float LightningDiscoverTime { get; private set;  } = 100f;
+    [field: SerializeField] public float LightningDiscoverTime { get; private set;  } = 100f;
     private float _beginningOfTime = float.MaxValue;
     public bool IsLightningDiscovered => Time.time - _beginningOfTime >= LightningDiscoverTime;
 
@@ -42,10 +43,13 @@ public class GodPowers : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2)) currentPower = PowerType.Fireball;
         if (Input.GetKeyDown(KeyCode.Alpha3) && IsLightningDiscovered) currentPower = PowerType.Lightning;
 
-        if (Input.GetMouseButtonDown(0))
+        if (planetController.IsDragging) return;
+
+        if (Input.GetMouseButtonUp(0))
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit, 1000f, planetLayer))
+            if (Physics.Raycast(ray, out RaycastHit hit, 1000f, planetLayer)
+                && !EventSystem.current.IsPointerOverGameObject())
             {
                 UsePower(hit.point);
             }
