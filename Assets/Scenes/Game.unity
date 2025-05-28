@@ -2695,6 +2695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3e21fa13ae807644abe2d53a7accc6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  planetController: {fileID: 1942462967}
   gameManager: {fileID: 956715328}
   uiController: {fileID: 767660175}
   mainCamera: {fileID: 330585545}
@@ -2707,6 +2708,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   currentPower: 0
+  <LightningDiscoverTime>k__BackingField: 100
 --- !u!82 &956715325
 AudioSource:
   m_ObjectHideFlags: 0
