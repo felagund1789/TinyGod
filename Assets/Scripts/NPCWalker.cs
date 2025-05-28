@@ -21,6 +21,11 @@ public class NPCWalker : AbstractSpawnable, IDestructible
     private float _movementTimer;
     private Vector3 _targetDir;
 
+    private void Awake()
+    {
+        Bus<LightningEvent>.OnEvent += OnLightningEvent;
+    }
+
     void Start()
     {
         _faithGenerationTimer = faithGenerationInterval;
@@ -110,9 +115,19 @@ public class NPCWalker : AbstractSpawnable, IDestructible
             children[i].SetActive(i == randomIndex);
         }
     }
+    
+    private void OnLightningEvent(LightningEvent evt)
+    {
+        if (gameObject && transform && Vector3.Distance(evt.Location, transform.position) < 0.25f)
+        {
+            // destroy this NPC
+            Destroy(gameObject);
+        }
+    }
 
     private void OnDestroy()
     {
         Bus<NPCDeathEvent>.Raise(new NPCDeathEvent());
+        Bus<LightningEvent>.OnEvent -= OnLightningEvent;
     }
 }

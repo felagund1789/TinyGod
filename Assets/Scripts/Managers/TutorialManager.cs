@@ -3,14 +3,18 @@ using EventBus;
 using Events;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Managers
 {
     public class TutorialManager : MonoBehaviour
     {
+        [SerializeField] private GodPowers godPowers;
+
         [Header("UI Elements")]
         [SerializeField] private GameObject welcomeMessagePanel;
         [SerializeField] private GameObject powersExplanationPanel;
+        [SerializeField] private GameObject lightningInfoPanel;
         [SerializeField] private GameObject tutorialMessagePanel;
         [SerializeField] private TextMeshProUGUI tutorialMessageText;
         private bool _npcReproduceMessageShown = false;
@@ -28,6 +32,7 @@ namespace Managers
             Invoke(nameof(ShowWelcomeMessage), 1f);
             Invoke(nameof(ShowPowersExplainer), 1.1f);
             Invoke(nameof(ShowRightClickToRotateMessage), 1.2f);
+            Invoke(nameof(ShowLightningInfo), godPowers.LightningDiscoverTime);
         }
 
         private void Update()
@@ -78,6 +83,12 @@ namespace Managers
             powersExplanationPanel.SetActive(true);
         }
 
+        private void ShowLightningInfo()
+        {
+            Time.timeScale = 0;
+            lightningInfoPanel.SetActive(true);
+        }
+
         private void ShowRightClickToRotateMessage() =>
             ShowMessage(@"Controls
 
@@ -99,6 +110,12 @@ Right-click and move the mouse to rotate the planet. Left click on the planet to
         public void ClosePowersExplainer()
         {
             powersExplanationPanel.SetActive(false);
+            Time.timeScale = 1;
+        }
+
+        public void CloseLightningInfo()
+        {
+            lightningInfoPanel.SetActive(false);
             Time.timeScale = 1;
         }
 

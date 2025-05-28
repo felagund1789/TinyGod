@@ -16,8 +16,10 @@ namespace Managers
         [SerializeField] private Image happinessBarImage;
         [SerializeField] private RectTransform rainIcon;
         [SerializeField] private RectTransform fireballIcon;
+        [SerializeField] private RectTransform lightningIcon;
         [SerializeField] private Button rainButton;
         [SerializeField] private Button fireballButton;
+        [SerializeField] private Button lightningButton;
 
         [Header("Animation Settings")]
         [SerializeField] private float selectedScale = 1.2f;
@@ -48,6 +50,7 @@ namespace Managers
             // Setup button click handlers
             rainButton.onClick.AddListener(() => _godPowers.currentPower = PowerType.Rain);
             fireballButton.onClick.AddListener(() => _godPowers.currentPower = PowerType.Fireball);
+            lightningButton.onClick.AddListener(() => _godPowers.currentPower = PowerType.Lightning);
         }
 
         private void Update()
@@ -59,6 +62,7 @@ namespace Managers
             // Smoothly animate icons based on current power
             bool isRainSelected = _godPowers.currentPower == PowerType.Rain;
             bool isFireballSelected = _godPowers.currentPower == PowerType.Fireball;
+            bool isLightningSelected = _godPowers.currentPower == PowerType.Lightning;
 
             rainIcon.localScale = Vector3.Lerp(
                 rainIcon.localScale,
@@ -71,6 +75,20 @@ namespace Managers
                 Vector3.one * (isFireballSelected ? selectedScale : normalScale),
                 Time.deltaTime * animationSpeed
             );
+
+            // if lightning is discovered, enable and show the lightning button
+            if (_godPowers.IsLightningDiscovered)
+            {
+                lightningButton.interactable = true;
+                fireballIcon.anchoredPosition = new Vector2(-225f, -100);
+                rainIcon.anchoredPosition = new Vector2(-350f, -100);
+
+                lightningIcon.localScale = Vector3.Lerp(
+                    lightningIcon.localScale,
+                    Vector3.one * (isLightningSelected ? selectedScale : normalScale),
+                    Time.deltaTime * animationSpeed
+                );
+            }
         }
 
         public void UpdatePopulation(int population) => populationText.text = $"{population}";
